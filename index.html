@@ -1,0 +1,1079 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nihongo Master - เรียนภาษาญี่ปุ่นเข้าใจง่าย</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts: Kanit & Prompt for Thai, Noto Sans JP for Japanese -->
+    <link href="https://fonts.googleapis.com/css2?family=Prompt:wght@300;400;500;600;700&family=Noto+Sans+JP:wght@400;500;700&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        brand: {
+                            50: '#f0f3ff',
+                            100: '#e1e7fe',
+                            500: '#6366f1',
+                            600: '#4f46e5',
+                            700: '#4338ca',
+                            900: '#312e81',
+                        },
+                        accent: {
+                            purple: '#8b5cf6',
+                            pink: '#ec4899',
+                            amber: '#f59e0b',
+                            emerald: '#10b981',
+                            sky: '#06b6d4'
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Prompt', 'sans-serif'],
+                        jp: ['Noto Sans JP', 'sans-serif']
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body {
+            font-family: 'Prompt', sans-serif;
+            background-color: #0f172a;
+            color: #1e293b;
+        }
+        /* Japanese Traditional Patterns & Seasonal Themes */
+        .seigaiha-bg {
+            background-color: transparent;
+            background-image: radial-gradient(circle at 50% 50%, rgba(255, 255, 255, 0.1) 0%, rgba(255, 255, 255, 0) 70%),
+                              repeating-radial-gradient(circle at 50% 100%, transparent 0, transparent 8px, rgba(255,255,255,0.06) 9px, rgba(255,255,255,0.06) 11px, transparent 12px, transparent 18px);
+        }
+        .ticket-stub {
+            position: relative;
+            border: 2 border-dashed border-white/30;
+        }
+        .ticket-stub::before, .ticket-stub::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            width: 14px;
+            height: 14px;
+            background-color: #0f172a;
+            border-radius: 50%;
+            transform: translateY(-50%);
+        }
+        .ticket-stub::before { left: -7px; }
+        .ticket-stub::after { right: -7px; }
+
+        /* Seasonal Theme Color Profiles (Inspired by image) */
+        .theme-spring {
+            --bg-header: linear-gradient(135deg, #f472b6 0%, #a855f7 60%, #cbd5e1 100%);
+            --accent-color: #ec4899;
+            --card-badge-bg: #fce7f3;
+            --card-badge-text: #be185d;
+        }
+        .theme-summer {
+            --bg-header: linear-gradient(135deg, #0284c7 0%, #0369a1 50%, #1e3a8a 100%);
+            --accent-color: #0284c7;
+            --card-badge-bg: #e0f2fe;
+            --card-badge-text: #0369a1;
+        }
+        .theme-autumn {
+            --bg-header: linear-gradient(135deg, #b45309 0%, #78350f 50%, #4c1d95 100%);
+            --accent-color: #d97706;
+            --card-badge-bg: #fef3c7;
+            --card-badge-text: #92400e;
+        }
+        .theme-winter {
+            --bg-header: linear-gradient(135deg, #1e1b4b 0%, #1e293b 50%, #991b1b 100%);
+            --accent-color: #38bdf8;
+            --card-badge-bg: #f1f5f9;
+            --card-badge-text: #0f172a;
+        }
+
+        .hide-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+        .hide-scrollbar {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+        .stroke-canvas {
+            touch-action: none;
+        }
+        .kana-grid {
+            display: grid;
+            grid-template-columns: repeat(5, minmax(0, 1fr));
+            gap: 0.5rem;
+        }
+        .glass-card {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+        }
+        .gradient-purple-pink {
+            background: linear-gradient(135deg, #6366f1 0%, #a855f7 50%, #ec4899 100%);
+        }
+        .gradient-card-1 {
+            background: linear-gradient(135deg, #4f46e5 0%, #7c3aed 100%);
+        }
+        .gradient-card-2 {
+            background: linear-gradient(135deg, #0284c7 0%, #0d9488 100%);
+        }
+        .gradient-card-3 {
+            background: linear-gradient(135deg, #d97706 0%, #dc2626 100%);
+        }
+    </style>
+</head>
+<body class="bg-slate-900 min-h-screen flex justify-center items-center p-0 sm:p-4">
+
+    <!-- Mobile Frame Outer Container -->
+    <div class="w-full max-w-md bg-slate-50 min-h-screen sm:min-h-[850px] sm:max-h-[900px] sm:rounded-[40px] shadow-2xl flex flex-col overflow-hidden relative border-0 sm:border-8 border-slate-800">
+
+        <!-- App Header Bar -->
+        <header id="main-header" class="gradient-purple-pink text-white pt-5 pb-5 px-5 rounded-b-3xl shadow-lg relative shrink-0 transition-all duration-500 seigaiha-bg">
+            <!-- Seasonal Theme Selector Pill -->
+            <div class="flex justify-between items-center mb-3">
+                <div class="flex items-center space-x-2">
+                    <div class="w-10 h-10 rounded-2xl bg-white/20 backdrop-blur flex items-center justify-center font-bold text-lg border border-white/40 shadow-inner">
+                        <span id="season-icon">🌸</span>
+                    </div>
+                    <div>
+                        <div class="flex items-center gap-1.5">
+                            <h1 class="font-bold text-lg leading-tight">สวัสดี 👋🏻</h1>
+                            <span id="season-kanji-stamp" class="text-[10px] font-jp px-1.5 py-0.5 rounded border border-white/50 bg-white/20 font-bold">春</span>
+                        </div>
+                        <p class="text-xs text-indigo-100 font-light">พร้อมเรียนภาษาญี่ปุ่นแล้ว!</p>
+                    </div>
+                </div>
+
+                <!-- User XP & Stats -->
+                <div class="flex items-center space-x-2">
+                    <div class="bg-white/20 backdrop-blur px-2.5 py-1 rounded-full text-xs font-semibold flex items-center gap-1 border border-white/20">
+                        <i class="fa-solid fa-fire text-amber-300"></i>
+                        <span id="streak-count">5 วัน</span>
+                    </div>
+                    <div class="bg-amber-400 text-slate-900 px-2.5 py-1 rounded-full text-xs font-bold flex items-center gap-1 shadow">
+                        <i class="fa-solid fa-star"></i>
+                        <span id="user-xp">350 XP</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Traditional Season Ticket Switcher Bar -->
+            <div class="bg-black/20 backdrop-blur-md p-1 rounded-xl border border-white/20 flex justify-between items-center text-xs mb-3">
+                <button onclick="setTheme('spring')" id="season-btn-spring" class="flex-1 py-1 px-1.5 rounded-lg text-center font-medium transition text-amber-200 bg-white/20">🌸 春 (ฤดูใบไม้ผลิ)</button>
+                <button onclick="setTheme('summer')" id="season-btn-summer" class="flex-1 py-1 px-1.5 rounded-lg text-center font-medium transition text-white/70 hover:text-white">🏮 夏 (ฤดูร้อน)</button>
+                <button onclick="setTheme('autumn')" id="season-btn-autumn" class="flex-1 py-1 px-1.5 rounded-lg text-center font-medium transition text-white/70 hover:text-white">🍁 秋 (ฤดูใบไม้ร่วง)</button>
+                <button onclick="setTheme('winter')" id="season-btn-winter" class="flex-1 py-1 px-1.5 rounded-lg text-center font-medium transition text-white/70 hover:text-white">❄️ 冬 (ฤดูหนาว)</button>
+            </div>
+
+            <!-- Search or Quick Action -->
+            <div class="relative">
+                <input type="text" id="global-search" onkeyup="handleGlobalSearch(this.value)" placeholder="ค้นหาคำศัพท์, คันจิ, ประโยค..." 
+                       class="w-full bg-white/15 text-white placeholder-indigo-200 text-sm rounded-xl pl-10 pr-4 py-2 focus:outline-none focus:ring-2 focus:ring-white/50 backdrop-blur border border-white/20">
+                <i class="fa-solid fa-magnifying-glass absolute left-3.5 top-3 text-indigo-200 text-xs"></i>
+            </div>
+        </header>
+
+        <!-- Main Content Area -->
+        <main id="main-scroll" class="flex-1 overflow-y-auto hide-scrollbar p-4 space-y-6">
+
+            <!-- Search Results View (Hidden by Default) -->
+            <div id="search-results-section" class="hidden space-y-3">
+                <div class="flex justify-between items-center">
+                    <h3 class="font-bold text-slate-800 text-sm">ผลการค้นหา</h3>
+                    <button onclick="clearSearch()" class="text-xs text-indigo-600 font-medium">ยกเลิก</button>
+                </div>
+                <div id="search-results-list" class="space-y-2"></div>
+            </div>
+
+            <!-- HOME VIEW CONTENT -->
+            <div id="view-home" class="space-y-6">
+                
+                <!-- Recommended for Beginners (สิ่งแนะนำสำหรับผู้เริ่มต้น) -->
+                <section>
+                    <div class="flex justify-between items-end mb-3">
+                        <div>
+                            <span class="text-[10px] font-bold text-indigo-600 bg-indigo-50 px-2.5 py-0.5 rounded-full uppercase tracking-wider border border-indigo-200">
+                                <i class="fa-solid fa-ticket text-indigo-500 mr-1"></i>สิ่งแนะนำสำหรับมือใหม่
+                            </span>
+                            <h2 class="text-base font-bold text-slate-800 mt-1">ตั๋วเรียนรู้ก้าวแรก ✨</h2>
+                        </div>
+                        <span class="text-xs text-slate-400">กดเลือกการ์ดตั๋ว</span>
+                    </div>
+
+                    <!-- Horizontal Scroll Recommendations in Japanese Ticket Style -->
+                    <div class="flex space-x-3 overflow-x-auto hide-scrollbar pb-2 -mx-4 px-4">
+                        
+                        <!-- Recommendation Ticket Card 1 (Spring / Hiragana) -->
+                        <div onclick="switchTab('characters'); setKanaTab('hiragana')" 
+                             class="bg-gradient-to-br from-pink-500 via-purple-600 to-indigo-600 min-w-[230px] rounded-2xl p-4 text-white shadow-md relative overflow-hidden cursor-pointer hover:scale-[1.02] transition border border-pink-300/40">
+                            <!-- Traditional Crest Background Overlay -->
+                            <div class="absolute -right-3 -bottom-3 text-white/10 text-8xl font-jp font-bold select-none">春</div>
+                            <div class="flex justify-between items-start mb-2">
+                                <div class="bg-white/20 backdrop-blur rounded-lg px-2 py-0.5 text-[10px] font-mono border border-white/30 flex items-center gap-1">
+                                    <span>TICKET #01</span>
+                                </div>
+                                <span class="w-6 h-6 rounded-full bg-pink-400/40 flex items-center justify-center text-xs">🌸</span>
+                            </div>
+                            <h3 class="font-bold text-base mt-1">จำตัวฮิรางานะ 46 ตัว</h3>
+                            <p class="text-xs text-pink-100 mt-1">ฟังเสียงอ่าน + ลำดับการเขียนเส้น</p>
+
+                            <!-- Dashed Ticket Line Divider -->
+                            <div class="my-3 border-b border-dashed border-white/30 relative">
+                                <div class="absolute -left-5 -top-1.5 w-3 h-3 bg-slate-50 rounded-full"></div>
+                                <div class="absolute -right-5 -top-1.5 w-3 h-3 bg-slate-50 rounded-full"></div>
+                            </div>
+
+                            <div class="flex items-center justify-between text-xs font-semibold text-pink-200">
+                                <span>เริ่มเรียนตัวอักษร</span>
+                                <i class="fa-solid fa-arrow-right text-[10px]"></i>
+                            </div>
+                        </div>
+
+                        <!-- Recommendation Ticket Card 2 (Summer / Sentence Breakdown) -->
+                        <div onclick="switchTab('sentences')" 
+                             class="bg-gradient-to-br from-sky-600 via-teal-600 to-indigo-800 min-w-[230px] rounded-2xl p-4 text-white shadow-md relative overflow-hidden cursor-pointer hover:scale-[1.02] transition border border-sky-300/40">
+                            <div class="absolute -right-3 -bottom-3 text-white/10 text-8xl font-jp font-bold select-none">夏</div>
+                            <div class="flex justify-between items-start mb-2">
+                                <div class="bg-white/20 backdrop-blur rounded-lg px-2 py-0.5 text-[10px] font-mono border border-white/30 flex items-center gap-1">
+                                    <span>TICKET #02</span>
+                                </div>
+                                <span class="w-6 h-6 rounded-full bg-sky-400/40 flex items-center justify-center text-xs">🏮</span>
+                            </div>
+                            <h3 class="font-bold text-base mt-1">แกะโครงสร้างประโยค</h3>
+                            <p class="text-xs text-sky-100 mt-1">ถอดรหัสประธาน/กริยา/ตัวชี้</p>
+
+                            <div class="my-3 border-b border-dashed border-white/30 relative">
+                                <div class="absolute -left-5 -top-1.5 w-3 h-3 bg-slate-50 rounded-full"></div>
+                                <div class="absolute -right-5 -top-1.5 w-3 h-3 bg-slate-50 rounded-full"></div>
+                            </div>
+
+                            <div class="flex items-center justify-between text-xs font-semibold text-sky-200">
+                                <span>ถอดรหัสประโยค</span>
+                                <i class="fa-solid fa-arrow-right text-[10px]"></i>
+                            </div>
+                        </div>
+
+                        <!-- Recommendation Ticket Card 3 (Autumn / Pronunciation) -->
+                        <div onclick="switchTab('pronounce')" 
+                             class="bg-gradient-to-br from-amber-600 via-orange-600 to-purple-900 min-w-[230px] rounded-2xl p-4 text-white shadow-md relative overflow-hidden cursor-pointer hover:scale-[1.02] transition border border-amber-300/40">
+                            <div class="absolute -right-3 -bottom-3 text-white/10 text-8xl font-jp font-bold select-none">秋</div>
+                            <div class="flex justify-between items-start mb-2">
+                                <div class="bg-white/20 backdrop-blur rounded-lg px-2 py-0.5 text-[10px] font-mono border border-white/30 flex items-center gap-1">
+                                    <span>TICKET #03</span>
+                                </div>
+                                <span class="w-6 h-6 rounded-full bg-amber-400/40 flex items-center justify-center text-xs">🍁</span>
+                            </div>
+                            <h3 class="font-bold text-base mt-1">เทคนิคฟังและออกเสียง</h3>
+                            <p class="text-xs text-amber-100 mt-1">ฟังความต่างของเสียงสั้น-ยาว</p>
+
+                            <div class="my-3 border-b border-dashed border-white/30 relative">
+                                <div class="absolute -left-5 -top-1.5 w-3 h-3 bg-slate-50 rounded-full"></div>
+                                <div class="absolute -right-5 -top-1.5 w-3 h-3 bg-slate-50 rounded-full"></div>
+                            </div>
+
+                            <div class="flex items-center justify-between text-xs font-semibold text-amber-200">
+                                <span>ฝึกออกเสียง</span>
+                                <i class="fa-solid fa-arrow-right text-[10px]"></i>
+                            </div>
+                        </div>
+
+                    </div>
+                </section>
+
+                <!-- Category Explorer (หมวดหมู่การเรียนรู้ - เลือกเรียนอิสระ) -->
+                <section>
+                    <div class="flex justify-between items-center mb-3">
+                        <h2 class="text-base font-bold text-slate-800">หมวดหมู่ทั้งหมด 📚</h2>
+                        <span class="text-xs text-indigo-600 font-medium">เรียนอะไรก่อนก็ได้</span>
+                    </div>
+
+                    <div class="grid grid-cols-2 gap-3">
+                        
+                        <!-- Cat 1: Character -->
+                        <div onclick="switchTab('characters')" class="bg-white p-4 rounded-2xl shadow-sm border border-slate-100 hover:shadow-md transition cursor-pointer flex flex-col justify-between">
+                            <div class="flex items-center justify-between mb-3">
+                                <div class="w-10 h-10 rounded-xl bg-indigo-100 text-indigo-600 flex items-center justify-center text-lg font-bold">
+                                    あ
+                                </div>
+                                <span class="text-[10px] font-bold text-indigo-600 bg-indigo-50 px-2 py-0.5 rounded">พื้นฐาน</span>
+                            </div>
+                            <div>
+                                <h3 class="font-bold text-slate-800 text-sm">ตัวอักษรญี่ปุ่น</h3>
+                                <p class="text-[11px] text-slate-500 mt-0.5">ฮิรางานะ คาตาคานะ คันจิ</p>
+                            </div>
+                        </div>
+
+                        <!-- Cat 2: Sentence Breakdown -->
+                        <div onclick="switchTab('sentences')" class="bg-white p-4 rounded-2xl shadow-sm border border-slate-100 hover:shadow-md transition cursor-pointer flex flex-col justify-between">
+                            <div class="flex items-center justify-between mb-3">
+                                <div class="w-10 h-10 rounded-xl bg-purple-100 text-purple-600 flex items-center justify-center text-lg">
+                                    <i class="fa-solid fa-diagram-project"></i>
+                                </div>
+                                <span class="text-[10px] font-bold text-purple-600 bg-purple-50 px-2 py-0.5 rounded">เข้าใจง่าย</span>
+                            </div>
+                            <div>
+                                <h3 class="font-bold text-slate-800 text-sm">แปล & โครงสร้างประโยค</h3>
+                                <p class="text-[11px] text-slate-500 mt-0.5">แยกไวยากรณ์ คำชี้ ตัวอย่าง</p>
+                            </div>
+                        </div>
+
+                        <!-- Cat 3: Vocabulary -->
+                        <div onclick="switchTab('vocab')" class="bg-white p-4 rounded-2xl shadow-sm border border-slate-100 hover:shadow-md transition cursor-pointer flex flex-col justify-between">
+                            <div class="flex items-center justify-between mb-3">
+                                <div class="w-10 h-10 rounded-xl bg-emerald-100 text-emerald-600 flex items-center justify-center text-lg">
+                                    <i class="fa-solid fa-book-bookmark"></i>
+                                </div>
+                                <span class="text-[10px] font-bold text-emerald-600 bg-emerald-50 px-2 py-0.5 rounded">คลังคำ</span>
+                            </div>
+                            <div>
+                                <h3 class="font-bold text-slate-800 text-sm">คำศัพท์ใช้จริง</h3>
+                                <p class="text-[11px] text-slate-500 mt-0.5">จัดหมวดหมู่ + เสียงอ่าน</p>
+                            </div>
+                        </div>
+
+                        <!-- Cat 4: Pronunciation -->
+                        <div onclick="switchTab('pronounce')" class="bg-white p-4 rounded-2xl shadow-sm border border-slate-100 hover:shadow-md transition cursor-pointer flex flex-col justify-between">
+                            <div class="flex items-center justify-between mb-3">
+                                <div class="w-10 h-10 rounded-xl bg-sky-100 text-sky-600 flex items-center justify-center text-lg">
+                                    <i class="fa-solid fa-volume-high"></i>
+                                </div>
+                                <span class="text-[10px] font-bold text-sky-600 bg-sky-50 px-2 py-0.5 rounded">การฟัง</span>
+                            </div>
+                            <div>
+                                <h3 class="font-bold text-slate-800 text-sm">การออกเสียง & Pitch</h3>
+                                <p class="text-[11px] text-slate-500 mt-0.5">วรรณยุกต์ เสียงสั้น/ยาว</p>
+                            </div>
+                        </div>
+
+                        <!-- Cat 5: Practice & Exercises -->
+                        <div onclick="switchTab('quiz')" class="col-span-2 bg-gradient-to-r from-amber-500 to-orange-500 p-4 rounded-2xl shadow-md text-white transition cursor-pointer flex items-center justify-between">
+                            <div class="flex items-center space-x-3">
+                                <div class="w-12 h-12 rounded-xl bg-white/20 backdrop-blur flex items-center justify-center text-2xl">
+                                    🎯
+                                </div>
+                                <div>
+                                    <h3 class="font-bold text-base">แบบฝึกหัดทบทวนความรู้</h3>
+                                    <p class="text-xs text-amber-100">มินิเกมจับคู่ เติมคำ และเรียงประโยค</p>
+                                </div>
+                            </div>
+                            <div class="w-8 h-8 rounded-full bg-white/20 flex items-center justify-center">
+                                <i class="fa-solid fa-chevron-right text-xs"></i>
+                            </div>
+                        </div>
+
+                    </div>
+                </section>
+
+                <!-- Daily Tip Section -->
+                <section class="bg-indigo-50 border border-indigo-100 rounded-2xl p-4 flex items-start space-x-3">
+                    <div class="text-2xl">💡</div>
+                    <div>
+                        <h4 class="font-bold text-indigo-900 text-xs">เคล็ดลับการเรียนวันนี้</h4>
+                        <p class="text-xs text-indigo-700 mt-0.5 leading-relaxed">
+                            ภาษาญี่ปุ่นกริยาจะอยู่<strong class="underline decoration-indigo-300">ท้ายประโยคเสมอ</strong> ไม่เหมือนภาษาไทยหรืออังกฤษ! จำจุดนี้ไว้จะแกะประโยคได้เร็วขึ้นมาก
+                        </p>
+                    </div>
+                </section>
+
+            </div>
+
+            <!-- CHARACTERS VIEW CONTENT -->
+            <div id="view-characters" class="hidden space-y-4">
+                <!-- Character Nav Tabs -->
+                <div class="flex bg-slate-200/80 p-1 rounded-xl text-xs font-semibold">
+                    <button id="tab-hiragana" onclick="setKanaTab('hiragana')" class="flex-1 py-2 rounded-lg bg-white shadow-sm text-indigo-600 transition">ฮิรางานะ (あ)</button>
+                    <button id="tab-katakana" onclick="setKanaTab('katakana')" class="flex-1 py-2 rounded-lg text-slate-600 transition">คาตาคานะ (ア)</button>
+                    <button id="tab-kanji" onclick="setKanaTab('kanji')" class="flex-1 py-2 rounded-lg text-slate-600 transition">คันจิพื้นฐาน (漢字)</button>
+                </div>
+
+                <!-- Stroke Practice & Audio Modal Card (Interactive detail) -->
+                <div id="character-detail-card" class="bg-white p-4 rounded-2xl shadow-sm border border-slate-100 flex flex-col items-center">
+                    <div class="flex justify-between w-full items-center mb-2">
+                        <span class="text-xs font-semibold text-slate-400" id="char-type-label">ฮิรางานะ - แถว A</span>
+                        <button onclick="playCurrentCharAudio()" class="w-8 h-8 rounded-full bg-indigo-100 text-indigo-600 flex items-center justify-center hover:bg-indigo-200 transition">
+                            <i class="fa-solid fa-volume-high text-xs"></i>
+                        </button>
+                    </div>
+
+                    <div class="flex items-center justify-around w-full my-2">
+                        <!-- Big Character Display -->
+                        <div class="text-center">
+                            <div id="char-big-display" class="text-6xl font-jp font-bold text-indigo-600 my-1">あ</div>
+                            <div id="char-romaji-display" class="text-sm font-semibold text-slate-600">a (อา)</div>
+                        </div>
+
+                        <!-- Canvas / Stroke step guide -->
+                        <div class="text-center">
+                            <div class="w-24 h-24 border-2 border-dashed border-indigo-200 rounded-xl relative flex items-center justify-center bg-slate-50">
+                                <canvas id="stroke-canvas" width="90" height="90" class="stroke-canvas cursor-crosshair"></canvas>
+                                <div class="absolute bottom-1 right-1 text-[9px] text-slate-400">ลากเส้นฝึกเขียน</div>
+                            </div>
+                            <button onclick="clearCanvas()" class="text-[10px] text-slate-400 underline mt-1">ล้างเส้น</button>
+                        </div>
+                    </div>
+
+                    <div class="w-full bg-slate-50 p-3 rounded-xl mt-2 text-xs text-slate-600 border border-slate-100">
+                        <span class="font-bold text-indigo-700">💡 วิธีจำ:</span>
+                        <span id="char-mnemonic">เหมือนรูปคนที่กำลังอ้าปากร้อง "อา"</span>
+                    </div>
+                </div>
+
+                <!-- Grid of Characters -->
+                <div class="bg-white p-3 rounded-2xl shadow-sm border border-slate-100">
+                    <h3 id="kana-grid-title" class="text-xs font-bold text-slate-500 mb-3 uppercase tracking-wider">ตารางตัวอักษร (แตะเพื่อดูรายละเอียด & ฟังเสียง)</h3>
+                    
+                    <div id="kana-grid-container" class="kana-grid">
+                        <!-- Dynamic Kana Buttons will be injected here -->
+                    </div>
+                </div>
+            </div>
+
+            <!-- SENTENCE BREAKDOWN VIEW CONTENT -->
+            <div id="view-sentences" class="hidden space-y-4">
+                <div class="bg-gradient-to-r from-purple-600 to-indigo-600 text-white p-4 rounded-2xl shadow-sm">
+                    <h2 class="font-bold text-base">แปล & อธิบายโครงสร้างประโยค 🧩</h2>
+                    <p class="text-xs text-purple-100 mt-1">เรียนรู้หน้าที่ของคำ ไวยากรณ์ และลำดับประโยคแบบเข้าใจง่าย</p>
+                </div>
+
+                <!-- Sentence List -->
+                <div class="space-y-3" id="sentence-list-container">
+                    <!-- Dynamic sentence items -->
+                </div>
+            </div>
+
+            <!-- VOCABULARY VIEW CONTENT -->
+            <div id="view-vocab" class="hidden space-y-4">
+                <!-- Category selector -->
+                <div class="flex space-x-2 overflow-x-auto hide-scrollbar py-1">
+                    <button onclick="filterVocab('all')" class="vocab-cat-btn px-3 py-1.5 rounded-xl bg-indigo-600 text-white text-xs font-medium whitespace-nowrap">ทั้งหมด</button>
+                    <button onclick="filterVocab('greeting')" class="vocab-cat-btn px-3 py-1.5 rounded-xl bg-white text-slate-600 text-xs font-medium border border-slate-200 whitespace-nowrap">ทักทาย</button>
+                    <button onclick="filterVocab('daily')" class="vocab-cat-btn px-3 py-1.5 rounded-xl bg-white text-slate-600 text-xs font-medium border border-slate-200 whitespace-nowrap">ชีวิตประจำวัน</button>
+                    <button onclick="filterVocab('food')" class="vocab-cat-btn px-3 py-1.5 rounded-xl bg-white text-slate-600 text-xs font-medium border border-slate-200 whitespace-nowrap">อาหาร</button>
+                    <button onclick="filterVocab('travel')" class="vocab-cat-btn px-3 py-1.5 rounded-xl bg-white text-slate-600 text-xs font-medium border border-slate-200 whitespace-nowrap">ท่องเที่ยว</button>
+                </div>
+
+                <div id="vocab-cards-container" class="space-y-3">
+                    <!-- Dynamic Vocab cards -->
+                </div>
+            </div>
+
+            <!-- PRONUNCIATION VIEW CONTENT -->
+            <div id="view-pronounce" class="hidden space-y-4">
+                <div class="bg-sky-500 text-white p-4 rounded-2xl shadow-sm">
+                    <h2 class="font-bold text-base">เทคนิคการออกเสียงแบบเจ้าของภาษา 🎧</h2>
+                    <p class="text-xs text-sky-100 mt-1">ฟังความแตกต่างของเสียงสั้น เสียงยาว และการออกเสียงหนักเบา</p>
+                </div>
+
+                <div class="space-y-3">
+                    <!-- Rule 1 -->
+                    <div class="bg-white p-4 rounded-2xl border border-slate-100 shadow-sm">
+                        <div class="flex justify-between items-center mb-2">
+                            <span class="text-xs font-bold text-sky-600 bg-sky-50 px-2 py-0.5 rounded">กฎข้อที่ 1</span>
+                            <span class="text-xs text-slate-400">เสียงสั้น vs เสียงยาว</span>
+                        </div>
+                        <h3 class="font-bold text-sm text-slate-800">ความหมายเปลี่ยนถ้าลากเสียงต่างกัน</h3>
+                        <p class="text-xs text-slate-600 mt-1 leading-relaxed">
+                            ในภาษาญี่ปุ่น การลากเสียงยาวจะเปลี่ยนความหมายของคำโดยสิ้นเชิง
+                        </p>
+                        
+                        <div class="mt-3 space-y-2">
+                            <div onclick="speak('おばさん')" class="flex justify-between items-center bg-slate-50 p-2.5 rounded-xl cursor-pointer hover:bg-sky-50 transition">
+                                <div>
+                                    <span class="font-jp font-bold text-slate-800 text-sm">おばさん</span>
+                                    <span class="text-xs text-slate-500 ml-2">(Obasan - เสียงสั้น)</span>
+                                </div>
+                                <div class="flex items-center space-x-2">
+                                    <span class="text-xs font-semibold text-slate-600">คุณป้า / คุณน้า</span>
+                                    <i class="fa-solid fa-volume-high text-sky-500 text-xs"></i>
+                                </div>
+                            </div>
+
+                            <div onclick="speak('おばあさん')" class="flex justify-between items-center bg-slate-50 p-2.5 rounded-xl cursor-pointer hover:bg-sky-50 transition">
+                                <div>
+                                    <span class="font-jp font-bold text-slate-800 text-sm">おばあさん</span>
+                                    <span class="text-xs text-slate-500 ml-2">(Obaasan - เสียงยาว)</span>
+                                </div>
+                                <div class="flex items-center space-x-2">
+                                    <span class="text-xs font-semibold text-sky-600">คุณย่า / คุณยาย</span>
+                                    <i class="fa-solid fa-volume-high text-sky-500 text-xs"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Rule 2 -->
+                    <div class="bg-white p-4 rounded-2xl border border-slate-100 shadow-sm">
+                        <div class="flex justify-between items-center mb-2">
+                            <span class="text-xs font-bold text-purple-600 bg-purple-50 px-2 py-0.5 rounded">กฎข้อที่ 2</span>
+                            <span class="text-xs text-slate-400">เสียงสะดุด / เสียงกัก (っ)</span>
+                        </div>
+                        <h3 class="font-bold text-sm text-slate-800">ตัว つ ขนาดเล็ก (Sokuson)</h3>
+                        <p class="text-xs text-slate-600 mt-1 leading-relaxed">
+                            ทำหน้าที่หยุดจังหวะเสียงคล้ายตัวสะกดกักลมในคอ
+                        </p>
+                        
+                        <div class="mt-3 space-y-2">
+                            <div onclick="speak('いた')" class="flex justify-between items-center bg-slate-50 p-2.5 rounded-xl cursor-pointer hover:bg-purple-50 transition">
+                                <div>
+                                    <span class="font-jp font-bold text-slate-800 text-sm">いた</span>
+                                    <span class="text-xs text-slate-500 ml-2">(ita)</span>
+                                </div>
+                                <div class="flex items-center space-x-2">
+                                    <span class="text-xs font-semibold text-slate-600">เจ็บ / เคยอยู่</span>
+                                    <i class="fa-solid fa-volume-high text-purple-500 text-xs"></i>
+                                </div>
+                            </div>
+
+                            <div onclick="speak('いった')" class="flex justify-between items-center bg-slate-50 p-2.5 rounded-xl cursor-pointer hover:bg-purple-50 transition">
+                                <div>
+                                    <span class="font-jp font-bold text-slate-800 text-sm">いった</span>
+                                    <span class="text-xs text-slate-500 ml-2">(itta - กักลม)</span>
+                                </div>
+                                <div class="flex items-center space-x-2">
+                                    <span class="text-xs font-semibold text-purple-600">ไปแล้ว</span>
+                                    <i class="fa-solid fa-volume-high text-purple-500 text-xs"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- QUIZ VIEW CONTENT -->
+            <div id="view-quiz" class="hidden space-y-4">
+                <div class="bg-amber-500 text-white p-4 rounded-2xl shadow-sm flex justify-between items-center">
+                    <div>
+                        <h2 class="font-bold text-base">แบบฝึกหัดทบทวน 🎯</h2>
+                        <p class="text-xs text-amber-100">ทดสอบความเข้าใจและรับคะแนน XP</p>
+                    </div>
+                    <div class="text-2xl">🏆</div>
+                </div>
+
+                <!-- Active Quiz Box -->
+                <div id="quiz-box" class="bg-white p-5 rounded-2xl border border-slate-100 shadow-sm space-y-4">
+                    <div class="flex justify-between items-center text-xs text-slate-400">
+                        <span id="quiz-progress-text">คำถามข้อที่ 1/5</span>
+                        <span id="quiz-score-text" class="text-amber-600 font-bold">+20 XP</span>
+                    </div>
+
+                    <div class="text-center py-4">
+                        <span id="quiz-question-type" class="text-xs font-semibold bg-amber-50 text-amber-700 px-3 py-1 rounded-full">แปลความหมายตัวอักษร</span>
+                        <div id="quiz-question-display" class="text-4xl font-jp font-bold text-slate-800 my-4">あ</div>
+                        <p id="quiz-question-sub" class="text-sm text-slate-600">ตัวอักษรนี้อ่านว่าอย่างไรในระบบเสียง?</p>
+                    </div>
+
+                    <div id="quiz-options-container" class="space-y-2">
+                        <!-- Dynamic Options -->
+                    </div>
+
+                    <div id="quiz-feedback" class="hidden p-3 rounded-xl text-center text-xs font-bold"></div>
+                </div>
+            </div>
+
+        </main>
+
+        <!-- Bottom Navigation Bar -->
+        <nav class="bg-white border-t border-slate-200 px-3 py-2 flex justify-around items-center shrink-0">
+            <button onclick="switchTab('home')" id="nav-home" class="nav-btn flex flex-col items-center text-indigo-600 font-semibold transition">
+                <i class="fa-solid fa-house text-lg"></i>
+                <span class="text-[10px] mt-1">หน้าแรก</span>
+            </button>
+            <button onclick="switchTab('characters')" id="nav-characters" class="nav-btn flex flex-col items-center text-slate-400 hover:text-indigo-600 transition">
+                <i class="fa-solid fa-language text-lg"></i>
+                <span class="text-[10px] mt-1">ตัวอักษร</span>
+            </button>
+            <button onclick="switchTab('sentences')" id="nav-sentences" class="nav-btn flex flex-col items-center text-slate-400 hover:text-indigo-600 transition">
+                <i class="fa-solid fa-diagram-project text-lg"></i>
+                <span class="text-[10px] mt-1">ประโยค</span>
+            </button>
+            <button onclick="switchTab('vocab')" id="nav-vocab" class="nav-btn flex flex-col items-center text-slate-400 hover:text-indigo-600 transition">
+                <i class="fa-solid fa-book text-lg"></i>
+                <span class="text-[10px] mt-1">คำศัพท์</span>
+            </button>
+            <button onclick="switchTab('quiz')" id="nav-quiz" class="nav-btn flex flex-col items-center text-slate-400 hover:text-indigo-600 transition">
+                <i class="fa-solid fa-gamepad text-lg"></i>
+                <span class="text-[10px] mt-1">แบบฝึก</span>
+            </button>
+        </nav>
+
+    </div>
+
+    <script>
+        const hiraganaData = [
+            { char: 'あ', romaji: 'a', thai: 'อา', mnemonic: 'เหมือนรูปคนที่กำลังอ้าปากร้อง "อา"', ex: '朝 (asa - ตอนเช้า)' },
+            { char: 'い', romaji: 'i', thai: 'อี', mnemonic: 'เหมือนเส้นขนาน 2 เส้นโค้งเข้าหากัน', ex: '犬 (inu - สุนัข)' },
+            { char: 'う', romaji: 'u', thai: 'อู', mnemonic: 'เหมือนตัว U ที่นอนตะแคงปัดข้าง', ex: '海 (umi - ทะเล)' },
+            { char: 'え', romaji: 'e', thai: 'เอ', mnemonic: 'เหมือนคนกำลังยืนยืดแขนออกไปข้างหน้า', ex: '駅 (eki - สถานี)' },
+            { char: 'お', romaji: 'o', thai: 'โอ', mnemonic: 'เหมือนคนเล่นกอล์ฟพัตต์ลูก "โอ"', ex: 'お茶 (ocha - ชา)' },
+            { char: 'か', romaji: 'ka', thai: 'คา', mnemonic: 'เหมือนตัว K ที่มีจุดต่อข้างๆ', ex: '傘 (kasa - ร่ม)' },
+            { char: 'き', romaji: 'ki', thai: 'คิ', mnemonic: 'เหมือนลูกกุญแจ (Key) เสียบกุญแจ', ex: '木 (ki - ต้นไม้)' },
+            { char: 'く', romaji: 'ku', thai: 'คุ', mnemonic: 'เหมือนปากนกคูกู (Cuckoo) อ้าปาก', ex: '車 (kuruma - รถยนต์)' },
+            { char: 'け', romaji: 'ke', thai: 'เค', mnemonic: 'เหมือนถังเบียร์ เค้ก (Keg) หรือดาบตั้ง', ex: '毛 (ke - ขน/ผม)' },
+            { char: 'こ', romaji: 'ko', thai: 'โค', mnemonic: 'เหมือนปลาคาร์ป 2 ตัวว่ายขนานกัน', ex: '子 (kodomo - เด็ก)' }
+        ];
+
+        const katakanaData = [
+            { char: 'ア', romaji: 'a', thai: 'อา', mnemonic: 'เหมือนเสาอากาศ (Antenna)', ex: 'アメリカ (America)' },
+            { char: 'イ', romaji: 'i', thai: 'อี', mnemonic: 'เหมือนขาคนยืนเอียง', ex: 'インク (Ink)' },
+            { char: 'ウ', romaji: 'u', thai: 'อู', mnemonic: 'เหมือนหลังคาบ้านมีเสา', ex: 'ウクレレ (Ukulele)' },
+            { char: 'エ', romaji: 'e', thai: 'เอ', mnemonic: 'เหมือนลิฟต์ (Elevator) หรือโครงเหล็ก', ex: 'エアコン (Aircon)' },
+            { char: 'オ', romaji: 'o', thai: 'โอ', mnemonic: 'เหมือนคนวิ่งโอลิมปิก', ex: 'オレンジ (Orange)' },
+            { char: 'カ', romaji: 'ka', thai: 'คา', mnemonic: 'เหมือนตัว か แต่ตัดจุดออก', ex: 'カメラ (Camera)' },
+            { char: 'キ', romaji: 'ki', thai: 'คิ', mnemonic: 'เหมือนตัว き ตัดส่วนล่าง', ex: 'キャンプ (Camp)' }
+        ];
+
+        const kanjiData = [
+            { char: '日', romaji: 'nichi / hi', thai: 'พระอาทิตย์ / วัน', mnemonic: 'รูปดวงอาทิตย์มีจุดตรงกลาง', ex: '日本 (Nihon - ประเทศญี่ปุ่น)' },
+            { char: '月', romaji: 'getsu / tsuki', thai: 'พระจันทร์ / เดือน', mnemonic: 'รูปพระจันทร์เสี้ยวมีเมฆบัง', ex: '月曜日 (Getsuyoubi - วันจันทร์)' },
+            { char: '木', romaji: 'moku / ki', thai: 'ต้นไม้', mnemonic: 'ลำต้นกิ่งก้านต้นไม้', ex: '木曜日 (Mokuyoubi - วันพฤหัสบดี)' },
+            { char: '山', romaji: 'san / yama', thai: 'ภูเขา', mnemonic: 'ยอดเขาสามยอดชี้ขึ้น', ex: '富士山 (Fujisan - ภูเขาไฟฟูจิ)' },
+            { char: '川', romaji: 'sen / kawa', thai: 'แม่น้ำ', mnemonic: 'สายน้ำไหล 3 สาย', ex: '川 (kawa - แม่น้ำ)' },
+            { char: '人', romaji: 'jin / hito', thai: 'คน', mnemonic: 'คนยืน 2 ขาเดิน', ex: '日本人 (Nihonjin - คนญี่ปุ่น)' }
+        ];
+
+        const sentencesData = [
+            {
+                jp: 'わたしはパンを食べます。',
+                jpFull: 'わたしはパンを食べます。',
+                reading: 'Watashi wa pan o tabemasu.',
+                thai: 'ฉันกินขนมปัง',
+                breakdown: [
+                    { word: 'わたし', reading: 'watashi', role: 'ประธาน (ฉัน)', color: 'bg-indigo-100 text-indigo-800 border-indigo-300' },
+                    { word: 'は', reading: 'wa', role: 'ตัวชี้ประธาน', color: 'bg-amber-100 text-amber-800 border-amber-300' },
+                    { word: 'パン', reading: 'pan', role: 'กรรม (ขนมปัง)', color: 'bg-sky-100 text-sky-800 border-sky-300' },
+                    { word: 'を', reading: 'o', role: 'ตัวชี้กรรม', color: 'bg-amber-100 text-amber-800 border-amber-300' },
+                    { word: '食べます', reading: 'tabemasu', role: 'กริยา (กิน)', color: 'bg-emerald-100 text-emerald-800 border-emerald-300' }
+                ],
+                explanation: 'ลำดับประโยคญี่ปุ่นคือ <b>[ประธาน] + は + [กรรม] + を + [คำกริยา]</b> สังเกตว่ากริยาจะอยู่ท้ายสุดเสมอ!'
+            },
+            {
+                jp: 'カフェでコーヒーを飲みます。',
+                jpFull: 'カフェでコーヒーを飲みます。',
+                reading: 'Kafe de ko-hi- o nomimasu.',
+                thai: 'ดื่มกาแฟที่ร้านกาแฟ',
+                breakdown: [
+                    { word: 'カフェ', reading: 'kafe', role: 'สถานที่ (คาเฟ่)', color: 'bg-indigo-100 text-indigo-800 border-indigo-300' },
+                    { word: 'で', reading: 'de', role: 'ตัวชี้สถานที่เกิดการกระทำ', color: 'bg-amber-100 text-amber-800 border-amber-300' },
+                    { word: 'コーヒー', reading: 'ko-hi-', role: 'กรรม (กาแฟ)', color: 'bg-sky-100 text-sky-800 border-sky-300' },
+                    { word: 'を', reading: 'o', role: 'ตัวชี้กรรม', color: 'bg-amber-100 text-amber-800 border-amber-300' },
+                    { word: '飲みます', reading: 'nomimasu', role: 'กริยา (ดื่ม)', color: 'bg-emerald-100 text-emerald-800 border-emerald-300' }
+                ],
+                explanation: 'คำชี้ <b>で (de)</b> ใช้ต่อท้ายสถานที่ เพื่อบอกว่าการกระทำนั้นๆ เกิดขึ้นที่ไหน'
+            }
+        ];
+
+        const vocabData = [
+            { jp: 'おはようございます', reading: 'Ohayou gozaimasu', thai: 'อรุณสวัสดิ์ (สวัสดีตอนเช้า)', cat: 'greeting' },
+            { jp: 'こんにちは', reading: 'Konnichiwa', thai: 'สวัสดี (ตอนกลางวัน)', cat: 'greeting' },
+            { jp: 'こんばんは', reading: 'Konbanwa', thai: 'สวัสดี (ตอนเย็น/ค่ำ)', cat: 'greeting' },
+            { jp: 'ありがとうございます', reading: 'Arigatou gozaimasu', thai: 'ขอบคุณมาก', cat: 'greeting' },
+            { jp: 'すみません', reading: 'Sumimasen', thai: 'ขอโทษ / ขออนุญาต', cat: 'greeting' },
+            { jp: '水 (みず)', reading: 'Mizu', thai: 'น้ำเปล่า', cat: 'food' },
+            { jp: 'お茶 (おちゃ)', reading: 'Ocha', thai: 'ชาเขียว', cat: 'food' },
+            { jp: 'ラーメン', reading: 'Raamen', thai: 'ราเมง', cat: 'food' },
+            { jp: '駅 (えき)', reading: 'Eki', thai: 'สถานีรถไฟ', cat: 'travel' },
+            { jp: 'ホテル', reading: 'Hoteru', thai: 'โรงแรม', cat: 'travel' },
+            { jp: 'いくらですか', reading: 'Ikura desu ka', thai: 'ราคาเท่าไหร่ครับ/คะ', cat: 'daily' }
+        ];
+
+        const quizQuestions = [
+            {
+                type: 'แปลความหมายตัวอักษร',
+                q: 'あ',
+                sub: 'ตัวอักษรฮิรางานะนี้ ออกเสียงตรงกับข้อใด?',
+                options: ['a (อา)', 'i (อี)', 'u (อู)', 'e (เอ)'],
+                correct: 0
+            },
+            {
+                type: 'ทายคำศัพท์',
+                q: 'ありがとう',
+                sub: 'คำศัพท์นี้มีความหมายตรงกับภาษาไทยว่าอย่างไร?',
+                options: ['ขอโทษ', 'ขอบคุณ', 'สวัสดี', 'ลาก่อน'],
+                correct: 1
+            },
+            {
+                type: 'โครงสร้างประโยค',
+                q: 'กริยาในประโยคภาษาญี่ปุ่น มักจะวางไว้ตรงส่วนไหน?',
+                sub: 'ข้อใดคือหลักลำดับประโยคภาษาญี่ปุ่นที่ถูกต้อง',
+                options: ['ต้นประโยค', 'หลังประธานทันที', 'ท้ายประโยคเสมอ', 'ตรงไหนก็ได้'],
+                correct: 2
+            }
+        ];
+
+        // Global State variables
+        let currentKanaList = hiraganaData;
+        let currentCharIndex = 0;
+        let userXP = 350;
+        let currentQuizIndex = 0;
+        let isDrawing = false;
+        let canvas, ctx;
+
+        // Text-To-Speech audio helper
+        function speak(text) {
+            if ('speechSynthesis' in window) {
+                window.speechSynthesis.cancel();
+                const cleanText = text.replace(/\s*\(.*?\)/g, '');
+                const utterance = new SpeechSynthesisUtterance(cleanText);
+                utterance.lang = 'ja-JP';
+                utterance.rate = 0.85;
+                window.speechSynthesis.speak(utterance);
+            }
+        }
+
+        function setTheme(theme) {
+            const header = document.getElementById('main-header');
+            const stamp = document.getElementById('season-kanji-stamp');
+            const icon = document.getElementById('season-icon');
+
+            // Reset season buttons active states
+            ['spring', 'summer', 'autumn', 'winter'].forEach(s => {
+                const btn = document.getElementById(`season-btn-${s}`);
+                if (btn) btn.className = "flex-1 py-1 px-1.5 rounded-lg text-center font-medium transition text-white/70 hover:text-white";
+            });
+
+            const activeBtn = document.getElementById(`season-btn-${theme}`);
+
+            if (theme === 'spring') {
+                header.className = "bg-gradient-to-r from-pink-500 via-purple-600 to-indigo-600 text-white pt-5 pb-5 px-5 rounded-b-3xl shadow-lg relative shrink-0 transition-all duration-500 seigaiha-bg";
+                stamp.innerText = "春";
+                icon.innerText = "🌸";
+                if (activeBtn) activeBtn.className = "flex-1 py-1 px-1.5 rounded-lg text-center font-bold transition text-pink-200 bg-white/20 border border-white/30";
+            } else if (theme === 'summer') {
+                header.className = "bg-gradient-to-r from-sky-600 via-teal-600 to-blue-900 text-white pt-5 pb-5 px-5 rounded-b-3xl shadow-lg relative shrink-0 transition-all duration-500 seigaiha-bg";
+                stamp.innerText = "夏";
+                icon.innerText = "🏮";
+                if (activeBtn) activeBtn.className = "flex-1 py-1 px-1.5 rounded-lg text-center font-bold transition text-sky-200 bg-white/20 border border-white/30";
+            } else if (theme === 'autumn') {
+                header.className = "bg-gradient-to-r from-amber-600 via-orange-600 to-purple-950 text-white pt-5 pb-5 px-5 rounded-b-3xl shadow-lg relative shrink-0 transition-all duration-500 seigaiha-bg";
+                stamp.innerText = "秋";
+                icon.innerText = "🍁";
+                if (activeBtn) activeBtn.className = "flex-1 py-1 px-1.5 rounded-lg text-center font-bold transition text-amber-200 bg-white/20 border border-white/30";
+            } else if (theme === 'winter') {
+                header.className = "bg-gradient-to-r from-slate-900 via-indigo-950 to-red-950 text-white pt-5 pb-5 px-5 rounded-b-3xl shadow-lg relative shrink-0 transition-all duration-500 seigaiha-bg";
+                stamp.innerText = "冬";
+                icon.innerText = "❄️";
+                if (activeBtn) activeBtn.className = "flex-1 py-1 px-1.5 rounded-lg text-center font-bold transition text-sky-100 bg-white/20 border border-white/30";
+            }
+        }
+
+        function switchTab(tabId) {
+            // Hide all views
+            const views = ['home', 'characters', 'sentences', 'vocab', 'pronounce', 'quiz'];
+            views.forEach(v => {
+                const el = document.getElementById(`view-${v}`);
+                if (el) el.classList.add('hidden');
+            });
+
+            // Show selected view
+            const activeView = document.getElementById(`view-${tabId}`);
+            if (activeView) activeView.classList.remove('hidden');
+
+            // Reset navigation button styles
+            document.querySelectorAll('.nav-btn').forEach(btn => {
+                btn.classList.remove('text-indigo-600', 'font-semibold');
+                btn.classList.add('text-slate-400');
+            });
+
+            const activeNav = document.getElementById(`nav-${tabId}`);
+            if (activeNav) {
+                activeNav.classList.remove('text-slate-400');
+                activeNav.classList.add('text-indigo-600', 'font-semibold');
+            }
+
+            // Scroll back to top
+            document.getElementById('main-scroll').scrollTop = 0;
+        }
+
+        function setKanaTab(type) {
+            const btnHira = document.getElementById('tab-hiragana');
+            const btnKata = document.getElementById('tab-katakana');
+            const btnKanji = document.getElementById('tab-kanji');
+
+            btnHira.className = "flex-1 py-2 rounded-lg text-slate-600 transition";
+            btnKata.className = "flex-1 py-2 rounded-lg text-slate-600 transition";
+            btnKanji.className = "flex-1 py-2 rounded-lg text-slate-600 transition";
+
+            if (type === 'hiragana') {
+                btnHira.className = "flex-1 py-2 rounded-lg bg-white shadow-sm text-indigo-600 font-bold transition";
+                currentKanaList = hiraganaData;
+                document.getElementById('kana-grid-title').innerText = "ตารางตัวอักษรฮิรางานะ (Hiragana)";
+            } else if (type === 'katakana') {
+                btnKata.className = "flex-1 py-2 rounded-lg bg-white shadow-sm text-indigo-600 font-bold transition";
+                currentKanaList = katakanaData;
+                document.getElementById('kana-grid-title').innerText = "ตารางตัวอักษรคาตาคานะ (Katakana)";
+            } else {
+                btnKanji.className = "flex-1 py-2 rounded-lg bg-white shadow-sm text-indigo-600 font-bold transition";
+                currentKanaList = kanjiData;
+                document.getElementById('kana-grid-title').innerText = "คันจิพื้นฐานระดับเริ่มต้น (N5 Kanji)";
+            }
+
+            currentCharIndex = 0;
+            renderKanaGrid();
+            selectChar(0);
+        }
+
+        function renderKanaGrid() {
+            const container = document.getElementById('kana-grid-container');
+            container.innerHTML = '';
+
+            currentKanaList.forEach((item, idx) => {
+                const btn = document.createElement('button');
+                btn.className = `p-2.5 rounded-xl border flex flex-col items-center justify-center transition ${
+                    idx === currentCharIndex 
+                        ? 'bg-indigo-600 text-white border-indigo-600 shadow-md font-bold' 
+                        : 'bg-slate-50 text-slate-700 border-slate-200 hover:bg-indigo-50'
+                }`;
+                btn.onclick = () => selectChar(idx);
+                btn.innerHTML = `
+                    <span class="text-xl font-jp">${item.char}</span>
+                    <span class="text-[10px] opacity-80 mt-0.5">${item.romaji}</span>
+                `;
+                container.appendChild(btn);
+            });
+        }
+
+        function selectChar(index) {
+            currentCharIndex = index;
+            const item = currentKanaList[index];
+
+            document.getElementById('char-big-display').innerText = item.char;
+            document.getElementById('char-romaji-display').innerText = `${item.romaji} (${item.thai})`;
+            document.getElementById('char-mnemonic').innerText = item.mnemonic || (item.ex ? `ตัวอย่างคำศัพท์: ${item.ex}` : 'ฟังเสียงและฝึกเขียนซ้ำๆ');
+            
+            // Speak character
+            speak(item.char);
+            renderKanaGrid();
+            clearCanvas();
+        }
+
+        function playCurrentCharAudio() {
+            const item = currentKanaList[currentCharIndex];
+            if (item) speak(item.char);
+        }
+
+        function initCanvas() {
+            canvas = document.getElementById('stroke-canvas');
+            if (!canvas) return;
+            ctx = canvas.getContext('2d');
+            
+            ctx.strokeStyle = '#4f46e5';
+            ctx.lineWidth = 4;
+            ctx.lineCap = 'round';
+
+            // Touch & Mouse listeners
+            const startDrawing = (e) => {
+                isDrawing = true;
+                draw(e);
+            };
+            const stopDrawing = () => {
+                isDrawing = false;
+                ctx.beginPath();
+            };
+            const draw = (e) => {
+                if (!isDrawing) return;
+                const rect = canvas.getBoundingClientRect();
+                const clientX = e.touches ? e.touches[0].clientX : e.clientX;
+                const clientY = e.touches ? e.touches[0].clientY : e.clientY;
+                
+                ctx.lineTo(clientX - rect.left, clientY - rect.top);
+                ctx.stroke();
+                ctx.beginPath();
+                ctx.moveTo(clientX - rect.left, clientY - rect.top);
+            };
+
+            canvas.addEventListener('mousedown', startDrawing);
+            canvas.addEventListener('mouseup', stopDrawing);
+            canvas.addEventListener('mousemove', draw);
+
+            canvas.addEventListener('touchstart', (e) => { e.preventDefault(); startDrawing(e); });
+            canvas.addEventListener('touchend', (e) => { e.preventDefault(); stopDrawing(); });
+            canvas.addEventListener('touchmove', (e) => { e.preventDefault(); draw(e); });
+        }
+
+        function clearCanvas() {
+            if (ctx && canvas) {
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+            }
+        }
+
+        function renderSentences() {
+            const container = document.getElementById('sentence-list-container');
+            container.innerHTML = '';
+
+            sentencesData.forEach((s, idx) => {
+                const card = document.createElement('div');
+                card.className = "bg-white p-4 rounded-2xl border border-slate-100 shadow-sm space-y-3";
+                
+                let breakdownHTML = s.breakdown.map(b => `
+                    <div class="inline-flex flex-col items-center m-1 p-1.5 rounded-lg border text-center ${b.color}">
+                        <span class="text-sm font-jp font-bold">${b.word}</span>
+                        <span class="text-[9px] opacity-75">${b.reading}</span>
+                        <span class="text-[9px] font-semibold mt-1 bg-white/60 px-1 rounded">${b.role}</span>
+                    </div>
+                `).join('');
+
+                card.innerHTML = `
+                    <div class="flex justify-between items-start">
+                        <div>
+                            <div class="text-xs font-bold text-indigo-600 mb-1">ตัวอย่างประโยคที่ ${idx + 1}</div>
+                            <h3 class="font-jp font-bold text-lg text-slate-800">${s.jpFull || s.jp}</h3>
+                            <p class="text-xs text-slate-500 font-light">${s.reading}</p>
+                        </div>
+                        <button onclick="speak('${s.jpFull || s.jp}')" class="w-8 h-8 rounded-full bg-purple-100 text-purple-600 flex items-center justify-center hover:bg-purple-200 transition shrink-0">
+                            <i class="fa-solid fa-volume-high text-xs"></i>
+                        </button>
+                    </div>
+
+                    <div class="bg-indigo-50/50 p-2.5 rounded-xl">
+                        <span class="text-xs font-bold text-indigo-900">คำแปลไทย:</span>
+                        <p class="text-sm font-semibold text-indigo-700">${s.thai}</p>
+                    </div>
+
+                    <div class="border-t border-slate-100 pt-2">
+                        <span class="text-[11px] font-bold text-slate-500 block mb-1">🧩 โครงสร้าง & ชิ้นส่วนประโยค:</span>
+                        <div class="flex flex-wrap -m-1">
+                            ${breakdownHTML}
+                        </div>
+                    </div>
+
+                    <div class="bg-amber-50/70 p-2.5 rounded-xl border border-amber-100 text-xs text-amber-900 leading-relaxed">
+                        <span class="font-bold">💡 คำอธิบายไวยากรณ์:</span> ${s.explanation}
+                    </div>
+                `;
+
+                container.appendChild(card);
+            });
+        }
+
+        function renderVocab(filter = 'all') {
+            const container = document.getElementById('vocab-cards-container');
+            container.innerHTML = '';
+
+            const filtered = filter === 'all' ? vocabData : vocabData.filter(v => v.cat === filter);
+
+            filtered.forEach(v => {
+                const card = document.createElement('div');
+                card.className = "bg-white p-3.5 rounded-2xl border border-slate-100 shadow-sm flex justify-between items-center hover:border-indigo-200 transition";
+                card.innerHTML = `
+                    <div>
+                        <div class="font-jp font-bold text-base text-slate-800">${v.jp}</div>
+                        <div class="text-xs text-slate-500">${v.reading}</div>
+                        <div class="text-xs font-semibold text-emerald-600 mt-0.5">${v.thai}</div>
+                    </div>
+                    <button onclick="speak('${v.jp}')" class="w-9 h-9 rounded-full bg-slate-100 text-slate-600 flex items-center justify-center hover:bg-indigo-100 hover:text-indigo-600 transition">
+                        <i class="fa-solid fa-volume-high text-xs"></i>
+                    </button>
+                `;
+                container.appendChild(card);
+            });
+        }
+
+        function filterVocab(category) {
+            document.querySelectorAll('.vocab-cat-btn').forEach(btn => {
+                btn.className = "vocab-cat-btn px-3 py-1.5 rounded-xl bg-white text-slate-600 text-xs font-medium border border-slate-200 whitespace-nowrap";
+            });
+            event.target.className = "vocab-cat-btn px-3 py-1.5 rounded-xl bg-indigo-600 text-white text-xs font-medium whitespace-nowrap";
+            renderVocab(category);
+        }
+
+        function handleGlobalSearch(query) {
+            const searchSection = document.getElementById('search-results-section');
+            const searchList = document.getElementById('search-results-list');
+            
+            if (!query.trim()) {
+                searchSection.classList.add('hidden');
+                return;
+            }
+
+            searchSection.classList.remove('hidden');
+            searchList.innerHTML = '';
+
+            const q = query.toLowerCase();
+            const matchedVocab = vocabData.filter(v => v.jp.includes(q) || v.reading.toLowerCase().includes(q) || v.thai.includes(q));
+
+            if (matchedVocab.length === 0) {
+                searchList.innerHTML = '<p class="text-xs text-slate-400 py-2">ไม่พบคำศัพท์ที่ค้นหา</p>';
+                return;
+            }
+
+            matchedVocab.forEach(v => {
+                const item = document.createElement('div');
+                item.className = "bg-white p-3 rounded-xl border border-slate-200 flex justify-between items-center text-xs";
+                item.innerHTML = `
+                    <div>
+                        <span class="font-jp font-bold text-slate-800">${v.jp}</span> (${v.reading})
+                        <div class="text-indigo-600 font-medium">${v.thai}</div>
+                    </div>
+                    <button onclick="speak('${v.jp}')" class="text-indigo-600 px-2 py-1 rounded bg-indigo-50"><i class="fa-solid fa-volume-high"></i></button>
+                `;
+                searchList.appendChild(item);
+            });
+        }
+
+        function clearSearch() {
+            document.getElementById('global-search').value = '';
+            document.getElementById('search-results-section').classList.add('hidden');
+        }
+
+        function loadQuizQuestion() {
+            const q = quizQuestions[currentQuizIndex];
+            document.getElementById('quiz-progress-text').innerText = `คำถามข้อที่ ${currentQuizIndex + 1}/${quizQuestions.length}`;
+            document.getElementById('quiz-question-type').innerText = q.type;
+            document.getElementById('quiz-question-display').innerText = q.q;
+            document.getElementById('quiz-question-sub').innerText = q.sub;
+
+            const optionsContainer = document.getElementById('quiz-options-container');
+            optionsContainer.innerHTML = '';
+
+            const feedback = document.getElementById('quiz-feedback');
+            feedback.className = 'hidden p-3 rounded-xl text-center text-xs font-bold';
+
+            q.options.forEach((opt, idx) => {
+                const btn = document.createElement('button');
+                btn.className = "w-full p-3 text-left rounded-xl border border-slate-200 bg-slate-50 text-slate-700 font-medium text-xs hover:border-amber-400 transition flex justify-between items-center";
+                btn.innerHTML = `
+                    <span>${opt}</span>
+                    <i class="fa-regular fa-circle text-slate-300"></i>
+                `;
+                btn.onclick = () => checkQuizAnswer(idx);
+                optionsContainer.appendChild(btn);
+            });
+        }
+
+        function checkQuizAnswer(selectedIndex) {
+            const q = quizQuestions[currentQuizIndex];
+            const feedback = document.getElementById('quiz-feedback');
+            feedback.classList.remove('hidden');
+
+            if (selectedIndex === q.correct) {
+                feedback.className = "p-3 rounded-xl text-center text-xs font-bold bg-emerald-100 text-emerald-800 border border-emerald-300";
+                feedback.innerText = "🎉 ถูกต้องแล้ว! เก่งมาก (+20 XP)";
+                userXP += 20;
+                document.getElementById('user-xp').innerText = `${userXP} XP`;
+            } else {
+                feedback.className = "p-3 rounded-xl text-center text-xs font-bold bg-rose-100 text-rose-800 border border-rose-300";
+                feedback.innerText = `❌ ยังไม่ถูกต้อง (เฉลยที่ถูกคือ: ${q.options[q.correct]})`;
+            }
+
+            setTimeout(() => {
+                currentQuizIndex = (currentQuizIndex + 1) % quizQuestions.length;
+                loadQuizQuestion();
+            }, 1800);
+        }
+
+        window.onload = function() {
+            setTheme('spring');
+            setKanaTab('hiragana');
+            renderSentences();
+            renderVocab();
+            loadQuizQuestion();
+            initCanvas();
+        };
+    </script>
+</body>
+</html>
